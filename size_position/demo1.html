@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>滚动条</title>
+    <style>
+        #outer{
+            width:200px;
+            height:180px;
+            overflow:hidden;
+        }
+    </style>
+</head>
+<body>
+        <div id="outer">
+            <div id="inner">
+                1javascript高级运动</br>
+                 2javascript高级运动</br>
+                  3javascript高级运动</br>
+                   4javascript高级运动</br>
+                    5javascript高级运动</br>
+                     6javascript高级运动</br>
+                     7javascript高级运动</br>
+                     8javascript高级运动</br>
+                     9javascript高级运动</br>
+                     10javascript高级运动</br>
+            </div>
+            <div id="copy">
+                1javascript高级运动</br>
+                 2javascript高级运动</br>
+                  3javascript高级运动</br>
+                   4javascript高级运动</br>
+                    5javascript高级运动</br>
+                     6javascript高级运动</br>
+                     7javascript高级运动</br>
+                     8javascript高级运动</br>
+                     9javascript高级运动</br>
+                     10javascript高级运动</br>
+            </div>
+        </div>
+</body>
+<script>
+    window.onload = function(){
+        var outer = document.getElementById('outer');
+        var inner = document.getElementById('inner');
+        var copy = document.getElementById('copy');
+        outer.onscroll=function(){
+            document.title = outer.scrollTop;
+        }
+        // alert(inner.offsetHeight - outer.offsetHeight);  //scrollTop的最大值等于 内层offsetHeight-外层offetHeight
+        function move(){
+            
+            // if(outer.scrollTop>= (inner.offsetHeight-outer.offsetHeight)){
+            //     outer.scrollTop = 0;
+            // }else{
+            //     outer.scrollTop +=5;
+            // }
+            if(outer.scrollTop >= inner.offsetHeight){
+                 outer.scrollTop = 0;
+            }else{
+                 outer.scrollTop +=6;
+            }
+        }
+        setInterval(move,80);
+        //拷贝一份，实现无缝滚动
+    }
+</script>
+</html>

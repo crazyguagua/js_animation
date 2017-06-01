@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>放大镜</title>
+    <style>
+        *{
+            margin:0;
+            padding:0;
+        }
+        ul,li{
+            list-style: none;
+        }
+        #box{
+            width:1200px;
+            margin:20px auto;
+            position:relative;
+        }
+        #box .bottom{
+            margin-top:10px;
+        }
+        #box .bottom:after{
+            content: '\20';
+            display: block;
+            height: 0;
+            clear: both;
+        }
+        #box .bottom li{
+            margin: 0 0 0 18px;
+            display: inline-block;
+        }
+        #box .bottom a{
+            
+           float:left;
+            width: 60px;
+            height: 60px;
+        }
+        #box .bottom a:hover{
+             border: 2px solid #000;
+            
+        }
+        #box #left{
+            width:430px;
+            height:430px;
+        }
+        #right{
+            width:430px;
+            height:430px;
+            position:absolute;
+            left:440px;
+            top:0;
+            border:1px solid black;
+            display:none;
+            overflow:hidden;
+        }
+        #right img {
+            position:absolute;
+        }
+    </style>
+</head>
+<body>
+    <div  id="box">
+        <div id="left">
+            <div class="small" id="smallBox">
+                <a href="###"><img src="./imgs/img_2.jpg" alt=""></a>
+                <!--<img src="./imgs/img2_2.jpg" alt="">-->
+            </div>
+            <ul class="bottom" id="bottomBox">
+                 <li><a href="###"><img src="./imgs/img_1.jpg" alt=""></a></li>
+                <li><a href="###"><img src="./imgs/img2_1.jpg" alt=""></a></li>
+            </ul>
+        </div>
+        <div id="right">
+            
+        </div>
+    </div>
+</body>
+<script>
+    window.onload = function(){
+        var bottomBox = document.getElementById('bottomBox');
+        var smallBox = document.getElementById('smallBox');
+        var rightBox = document.getElementById('right');
+      
+        bottomBox.onmouseover = function(ev){
+            var e = ev || window.event;
+            var srcEle = e.srcElement || e.target;
+            //这里的nodeName="IMG" 一定要大写
+            if(srcEle.nodeName =='IMG'){
+                var src = srcEle.src;
+               // console.log(src);//这个src是绝对路径，文件在硬盘上的路径
+                var newSrc = src.substring(src.lastIndexOf('/')+1).replace('_1','_2');
+                smallBox.innerHTML = '<a href="###"><img src="./imgs/'+newSrc+'" alt=""></a>'
+            }
+        }
+        smallBox.onmouseover = function(ev){
+            var e = ev||window.event;
+            var smallBoxW = smallBox.offsetWidth;
+            var smallSrc = smallBox.getElementsByTagName('a')[0].getElementsByTagName('img')[0].src;
+           var bigSrc =  smallSrc.substring(smallSrc.lastIndexOf('/')+1).replace('_2','_3');
+            // console.log(smallBoxW);
+            // console.log('=============');
+            // console.log(e.clientX);
+            // console.log(bigSrc);
+            rightBox.style.display = 'block';
+            rightBox.innerHTML = '<img src="./imgs/'+bigSrc+'"/>';
+              var bigImg = rightBox.getElementsByTagName('img')[0];
+            this.onmousemove = function(ev){
+                var e = ev ||window.event;
+                var clientX = e.offsetX||e.layerX,clientY = e.offsetY||e.layerY;
+                var left = clientX - this.offsetLeft,top = clientY - this.offsetTop;
+                console.log(left+","+top);
+                var imgLeft = rightBox.offsetWidth*(left/smallBox.offsetWidth);
+                var imgTop = rightBox.offsetHeight*(top/smallBox.offsetHeight);
+                bigImg.style.left = (-1*imgLeft)+'px';
+                bigImg.style.top = (-1*imgTop)+'px';
+            }
+        }
+    }
+</script>
+</html>

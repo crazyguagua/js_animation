@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        #one{
+            width:200px;
+            height:200px;
+            background:red;
+        }
+    </style>
+</head>
+<body>
+    <div id="one"></div>
+</body>
+<script>
+    window.onload = function(){
+        var one = document.getElementById('one');
+        // var timer = setInterval(function(){
+        //     if(one.offsetWidth>=500){
+        //         clearInterval(timer);
+        //     }else{
+        //         one.style.width =one.offsetWidth+10+'px';
+        //     }
+        // },300)
+
+        function animate(obj,attr,end,changes){
+                var start = css(obj,attr);
+                var direction = 1;
+                if(start>end){
+                    changes*=-1;
+                    direction = -1;
+                }
+                var timer = setInterval(function(){
+                    if(direction==1){
+                         if(start>=end){
+                            clearInterval(timer);
+                        }
+                        else{
+                            css(obj,attr,start+=changes);
+                        }
+                    }else{
+                        if(start<=end){
+                            clearInterval(timer);
+                        }
+                        else{
+                            css(obj,attr,start+=changes);
+                        }
+                    }
+                   
+                },60)
+        }
+        function css(obj,attr,val){
+                if(obj.nodeType!=1){
+                    return;
+                }
+            var attr=attr.replace(/^\s+|\s+$/g,"");
+                if(arguments.length==2){
+                    if(attr=="opacity"){
+
+                    return 100*parseInt(obj.currentStyle?(obj.currentStyle[attr]||1):(getComputedStyle(obj,null)[attr]||1));
+                    }
+
+                    if(attr=="width" ||attr=="height"||attr=="top" ||attr=="left"){
+                    var str="offset"+attr.replace(attr.charAt(0),attr.charAt(0).toUpperCase());
+                    return obj[str];
+                    }
+
+                    return obj.currentStyle?obj.currentStyle[attr]:getComputedStyle(obj,null)[attr];
+                }
+
+                if(arguments.length==3){
+                    switch (attr) {
+                    case "width":
+                    case "height":
+                    case "top":
+                    case "left":
+                    obj.style[attr]=val+"px";
+                    break;
+                    case "opacity":
+                    obj.style.filter="alpha(opacity="+val+")";
+                    obj.style[attr]=val/100;
+                    break;
+                    default:
+                    obj.style[attr]=val;
+                    }
+                }
+        }
+
+        animate(one,'opacity',20,1)
+    }
+</script>
+</html>
